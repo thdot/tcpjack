@@ -1,7 +1,6 @@
 # TCP Jack
 
-Hijack established TCP connections.
-Send data over existing TCP connections.
+Hijack and send data over established TCP connections.
 
 ### Compiling
 
@@ -35,5 +34,5 @@ echo "PAYLOAD" | sudo ./tcpjack -j 72294
 
 ## Credits
 
-This proejct is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).
+This project is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).
 The original code has been cleaned up and extended to suport IPv6.
