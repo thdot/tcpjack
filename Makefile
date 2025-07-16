@@ -13,18 +13,18 @@
 CC           ?= clang
 TARGET       ?= tcpjack
 DESTDIR      ?= /usr/bin
-CFLAGS       ?= -I/usr/include -I./include -L/usr/lib -g -O0
+CFLAGS       ?= -I./include -g -O0 -Wall
 LDFLAGS      ?=
-LIBS         ?= -lnet -lpcap
-STYLE        ?= Google
-SOURCES      ?= src/tcpjack.c src/list.c src/proc.c src/trace.c src/packet.c
+LIBS         ?= 
+STYLE        ?= Webkit
+SOURCES      ?= src/tcpjack.c src/list.c src/proc.c
 
 default: tcpjack
 all:     tcpjack install
 
 .PHONY: tcpjack
 tcpjack: ## Compile for the local architecture ⚙
-	@$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) -o $(TARGET) $(SOURCES)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(SOURCES) -o $(TARGET) $(LIBS)
 
 install: ## Install the program to /usr/bin 🎉
 	@echo "Installing..."
