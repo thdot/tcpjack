@@ -1,20 +1,14 @@
 # TCP Jack
 
 Hijack established TCP connections.
-
 Send data over existing TCP connections.
-Perform analysis of routing topology using established TCP connections.
 
-### Installing 
-
-Install **tcpjack** like any normal Linux program. Download the source code and compile using your local C compiler.
+### Compiling
 
 ``` 
-wget https://github.com/krisnova/tcpjack/archive/refs/tags/v0.0.2.tar.gz
-tar -xzf v0.0.2.tar.gz
-cd tcpjack-0.0.2
+git clone https://github.com/thdot/tcpjack.git
+cd tcpjack
 make
-sudo make install
 ```
 
 ### Example Hijacking a TCP connection
@@ -33,8 +27,13 @@ ncat -l 9074
 ncat localhost 9074
 
 # Terminal 3 
-tcpjack -l | grep ncat 
+./tcpjack -l | grep ncat 
   ncat   9321  72294 127.0.0.1:48434 ->  127.0.0.1:9074 
   ncat   9237  76747  127.0.0.1:9074 -> 127.0.0.1:48434 
-echo "PAYLOAD" | sudo tcpjack -j 72294
+echo "PAYLOAD" | sudo ./tcpjack -j 72294
 ```
+
+## Credits
+
+This proejct is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).
+The original code has been cleaned up and extended to suport IPv6.

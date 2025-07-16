@@ -1,14 +1,5 @@
-/******************************************************************************\
-*                                                                             *
-*                     ███╗   ██╗ ██████╗ ██╗   ██╗ █████╗                     *
-*                     ████╗  ██║██╔═══██╗██║   ██║██╔══██╗                    *
-*                     ██╔██╗ ██║██║   ██║██║   ██║███████║                    *
-*                     ██║╚██╗██║██║   ██║╚██╗ ██╔╝██╔══██║                    *
-*                     ██║ ╚████║╚██████╔╝ ╚████╔╝ ██║  ██║                    *
-*                     ╚═╝  ╚═══╝ ╚═════╝   ╚═══╝  ╚═╝  ╚═╝                    *
-*               Written By: Kris Nóva    <admin@krisnova.net>                 *
-*                                                                             *
-\******************************************************************************/
+// Code originally written by Kris Nóva <admin@krisnova.net>
+// Modified and adapted by Thorsten Horstmann <mail@thdot.de>
 
 #include <dirent.h>
 #include <stdio.h>
@@ -44,7 +35,7 @@ struct ProcEntry proc_entry_from_pid(pid_t pid)
     return proc_entry;
 }
 
-struct ProcEntry proc_entry_from_ino(ino_t ino)
+struct ProcEntry proc_entry_from_ino(ino_t inode)
 {
     struct ProcEntry proc_entry = {
         .comm = "",
@@ -54,7 +45,7 @@ struct ProcEntry proc_entry_from_ino(ino_t ino)
     char path[756];
     char needle[64] = "";
     struct dirent* procdentry; // Procfs
-    snprintf(needle, 64, "socket:[%lu]", ino);
+    snprintf(needle, 64, "socket:[%lu]", inode);
     DIR* procdp = opendir("/proc");
     if (procdp == NULL)
         return proc_entry;
