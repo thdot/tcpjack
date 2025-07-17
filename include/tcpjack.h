@@ -30,11 +30,6 @@ void print_list(struct TCPList tcplist);
 struct ProcEntry {
     pid_t pid;
     char* comm;
-    /**
-     * The jacked_fd is a 1 to many mapping of socket FDs to a given pid.
-     * If this is parsed via an inode it is a specific FD.
-     * If this is parsed via a pid, it is the first one found at runtime!
-     */
     int jacked_fd;
 };
 

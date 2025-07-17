@@ -50,7 +50,7 @@ int main(int argc, char** argv)
     int option_index = 0;
     int do_list = 0;
     int do_jack = 0;
-    ino_t ino = 0;
+    ino_t inode = 0;
 
     static struct option long_options[] = {
         { "help", no_argument, 0, 'h' },
@@ -70,8 +70,8 @@ int main(int argc, char** argv)
         case 'j':
             do_jack = 1;
             char* endptr;
-            ino = (ino_t)strtoull(optarg, &endptr, 10);
-            if (errno != 0 || *endptr != '\0' || ino == 0) {
+            inode = (ino_t)strtoull(optarg, &endptr, 10);
+            if (*endptr != '\0' || inode == 0) {
                 fprintf(stderr, "Invalid or bad inode number: %s\n", optarg);
                 exit(EXIT_FAILURE);
             }
@@ -90,9 +90,9 @@ int main(int argc, char** argv)
 
     if (do_jack) {
         priv();
-        struct ProcEntry proc_entry = proc_entry_from_ino(ino);
+        struct ProcEntry proc_entry = proc_entry_from_ino(inode);
         if (proc_entry.pid == 0) {
-            fprintf(stderr, "Unable to trace inode %lu. Error finding proc entry for inode.\n", (unsigned long)ino);
+            fprintf(stderr, "Unable to trace inode %lu. Error finding proc entry for inode.\n", (unsigned long)inode);
             return EXIT_FAILURE;
         }
         int fd = proc_entry.jacked_fd;

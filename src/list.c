@@ -46,14 +46,13 @@ static void parse_proc_net_tcp(const char* path, sa_family_t family, struct TCPL
 {
     FILE* f = fopen(path, "r");
     if (!f) {
-        perror("Failed to open proc file");
+        fprintf(stderr, "Failed to open %s: %s\n", path, strerror(errno));
         return;
     }
     char line[1024];
     int line_num = 0;
     while (fgets(line, sizeof(line), f)) {
-        if (line_num++ == 0)
-            continue; // Skip header
+        if (line_num++ == 0) continue; // Skip header
         struct TCPConn conn = { .family = family };
         unsigned int state;
         char local_ip_hex[65];
@@ -64,16 +63,16 @@ static void parse_proc_net_tcp(const char* path, sa_family_t family, struct TCPL
             fprintf(stderr, "Failed to parse %s\n", path);
             exit(EXIT_FAILURE);
         }
+        if (state == TCP_ESTABLISHED && tcplist->numconns < TCP_LIST_MAXSIZE) {
+            conn.proc_entry = proc_entry_from_ino(conn.inode);
+            tcplist->conns[tcplist->numconns++] = conn;
+        }
         if (family == AF_INET) {
             parse_ipv4_hex(local_ip_hex, conn.local_addr);
             parse_ipv4_hex(remote_ip_hex, conn.remote_addr);
         } else { // AF_INET6
             parse_ipv6_hex(local_ip_hex, conn.local_addr);
             parse_ipv6_hex(remote_ip_hex, conn.remote_addr);
-        }
-        if (state == TCP_ESTABLISHED && tcplist->numconns < TCP_LIST_MAXSIZE) {
-            conn.proc_entry = proc_entry_from_ino(conn.inode);
-            tcplist->conns[tcplist->numconns++] = conn;
         }
     }
     fclose(f);

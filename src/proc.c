@@ -12,10 +12,7 @@
 
 struct ProcEntry proc_entry_from_pid(pid_t pid)
 {
-    struct ProcEntry proc_entry = {
-        .comm = "",
-        .pid = 0,
-    };
+    struct ProcEntry proc_entry = { 0 };
     char* comm = malloc(1024);
     memset(comm, 0, 1024);
     char proc_comm_path[64];
@@ -37,11 +34,7 @@ struct ProcEntry proc_entry_from_pid(pid_t pid)
 
 struct ProcEntry proc_entry_from_ino(ino_t inode)
 {
-    struct ProcEntry proc_entry = {
-        .comm = "",
-        .pid = 0,
-        .jacked_fd = 0,
-    };
+    struct ProcEntry proc_entry = { 0 };
     char path[756];
     char needle[64] = "";
     struct dirent* procdentry; // Procfs
