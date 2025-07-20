@@ -32,6 +32,29 @@ ncat localhost 9074
 echo "PAYLOAD" | sudo ./tcpjack -j 72294
 ```
 
+### Example *shared* socket HTTP Server (python)
+
+`shared_httpd` demonstrate the `pidfd_getfd` system call in python:
+
+```bash
+# Terminal 1
+./shared-httpd.py
+Listening on port 8000, pid=23304, fd=3
+
+# Terminal 2 
+sudo ./shared-httpd.py --fd 3 --pid 23304
+Duplicated the socket fd 3 from pid 23304 and listening on it, pid=23333
+
+# Terminal 3 
+for n in {0..3}; do curl 127.0.0.1:8000; sleep 0.5; done
+Response from process 23333
+Response from process 23304
+Response from process 23333
+Response from process 23304
+```
+
+As can be seen, responses come from the two servers (share a same TCP socket).
+
 ## Credits
 
 This project is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).
