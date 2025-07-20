@@ -57,5 +57,5 @@ As can be seen, responses come from the two servers (share a same TCP socket).
 
 ## Credits
 
-This project is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).
-The original code has been cleaned up and extended to suport IPv6.
+This project is derived from [Kris Nóva](https://github.com/krisnova/tcpjack).  
+The original code has been cleaned up and extended to suport IPv6. In addition, a python example is included.
